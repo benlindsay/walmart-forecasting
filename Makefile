@@ -10,6 +10,8 @@ PROFILE = default
 PROJECT_NAME = air-liquide-takehome-problem
 ENV_NAME = altakehome
 PYTHON_INTERPRETER = python
+RAW_DATA_URL = "http://sample.com/data-url"
+RAW_DATA_FILE = data/raw/data.csv
 
 ifeq (,$(shell which conda))
 HAS_CONDA=False
@@ -38,7 +40,7 @@ endif
 
 ## Make Dataset
 data: requirements
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py
+	$(PYTHON_INTERPRETER) src/data/make_dataset.py $(RAW_DATA_URL) $(RAW_DATA_FILE)
 
 ## Delete all compiled Python files
 clean:
