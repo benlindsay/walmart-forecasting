@@ -2,9 +2,23 @@
 -e .
 
 # external requirements
-click
 Sphinx
 coverage
 awscli
 flake8
 python-dotenv>=0.5.1
+
+# added requirements
+dash
+dash-renderer
+dash-html-components
+dash-core-components
+matplotlib
+numpy
+pandas
+plotly
+seaborn
+
+# heroku requirements
+gunicorn
+
