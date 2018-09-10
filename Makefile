@@ -8,13 +8,16 @@ PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
 PROFILE = default
 PROJECT_NAME = air-liquide-takehome-problem
-PYTHON_INTERPRETER = python3
+ENV_NAME = altakehome
+PYTHON_INTERPRETER = python
 
 ifeq (,$(shell which conda))
 HAS_CONDA=False
 else
 HAS_CONDA=True
 endif
+
+ENABLE_JUPYTERLAB_VIM=True
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -24,6 +27,14 @@ endif
 requirements: test_environment
 	pip install -U pip setuptools wheel
 	pip install -r requirements.txt
+ifeq (True,$(ENABLE_JUPYTERLAB_VIM))
+	jupyter labextension install jupyterlab_vim
+endif
+	pip freeze > requirements-pip-lock.txt
+ifeq (True,$(HAS_CONDA))
+	conda list -e > requirements-conda-lock.txt
+	conda env export > $(ENV_NAME).yml
+endif
 
 ## Make Dataset
 data: requirements
@@ -57,19 +68,15 @@ endif
 ## Set up python interpreter environment
 create_environment:
 ifeq (True,$(HAS_CONDA))
-		@echo ">>> Detected conda, creating conda environment."
-ifeq (3,$(findstring 3,$(PYTHON_INTERPRETER)))
-	conda create --name $(PROJECT_NAME) python=3
+	@echo ">>> Detected conda, creating conda environment."
+	conda create -c conda-forge --name $(ENV_NAME) python=3.6 jupyter jupyterlab nb_conda_kernels
+	@echo ">>> New conda env created. Activate with:\nsource activate $(ENV_NAME)"
 else
-	conda create --name $(PROJECT_NAME) python=2.7
-endif
-		@echo ">>> New conda env created. Activate with:\nsource activate $(PROJECT_NAME)"
-else
-	@pip install -q virtualenv virtualenvwrapper
+	@pip install -q virtualenv virtualenvwrapper jupyter
 	@echo ">>> Installing virtualenvwrapper if not already intalled.\nMake sure the following lines are in shell startup file\n\
 	export WORKON_HOME=$$HOME/.virtualenvs\nexport PROJECT_HOME=$$HOME/Devel\nsource /usr/local/bin/virtualenvwrapper.sh\n"
-	@bash -c "source `which virtualenvwrapper.sh`;mkvirtualenv $(PROJECT_NAME) --python=$(PYTHON_INTERPRETER)"
-	@echo ">>> New virtualenv created. Activate with:\nworkon $(PROJECT_NAME)"
+	@bash -c "source `which virtualenvwrapper.sh`;mkvirtualenv $(ENV_NAME) --python=$(PYTHON_INTERPRETER)"
+	@echo ">>> New virtualenv created. Activate with:\nworkon $(ENV_NAME)"
 endif
 
 ## Test python environment is setup correctly
