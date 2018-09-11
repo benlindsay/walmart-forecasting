@@ -10,10 +10,8 @@ from dotenv import find_dotenv
 from dotenv import load_dotenv
 from os import makedirs
 from os.path import dirname
-from os.path import exists
 from os.path import getmtime
 from os.path import isfile
-from os.path import join
 from urllib.request import urlopen
 
 PROJECT_DIR = dirname(find_dotenv())
