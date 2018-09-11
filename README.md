@@ -7,8 +7,6 @@ Description here.
 
 These are the steps you'll need to take the first time you touch this:
 
-To use:
-
 0. Clone this repo:
 
 ```
