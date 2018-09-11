@@ -40,7 +40,7 @@ requirements-lock: test_environment
 	pip install -r requirements-lock.txt
 
 ## Make Dataset
-data: requirements
+data:
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py $(RAW_DATA_URL) $(RAW_DATA_FILE)
 
 ## Delete all compiled Python files
