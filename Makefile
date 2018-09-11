@@ -32,10 +32,16 @@ requirements: test_environment
 ifeq (True,$(ENABLE_JUPYTERLAB_VIM))
 	jupyter labextension install jupyterlab_vim
 endif
-	pip freeze > requirements-pip-lock.txt
+
+requirements-base: test_environment
+	pip install -U pip setuptools wheel
+	pip install -r requirements-base.txt
+ifeq (True,$(ENABLE_JUPYTERLAB_VIM))
+	jupyter labextension install jupyterlab_vim
+endif
+	pip freeze > requirements.txt
 ifeq (True,$(HAS_CONDA))
-	conda list -e > requirements-conda-lock.txt
-	conda env export > $(ENV_NAME).yml
+	conda env export > environment.yml
 endif
 
 ## Make Dataset
