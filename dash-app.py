@@ -6,18 +6,6 @@
 """Interactive visualization for take home project
 """
 
-from collections import Counter
-
-import warnings
-with warnings.catch_warnings():
-    # ignore warnings that are safe to ignore according to
-    # https://github.com/ContinuumIO/anaconda-issues/issues/6678
-    # #issuecomment-337276215
-    warnings.simplefilter("ignore")
-    import dash
-    import dash_core_components as dcc
-    import dash_html_components as html
-    import pandas as pd
 from dash.dependencies import Input, State, Output, Event
 from dotenv import load_dotenv
 from plotly.colors import DEFAULT_PLOTLY_COLORS
@@ -29,6 +17,17 @@ from dashboard.components import Col
 from dashboard.components import Container
 from dashboard.components import Row
 
+import warnings
+with warnings.catch_warnings():
+    # ignore warnings that are safe to ignore according to
+    # https://github.com/ContinuumIO/anaconda-issues/issues/6678
+    # #issuecomment-337276215
+    warnings.simplefilter("ignore")
+    import dash
+    import dash_core_components as dcc
+    import dash_html_components as html
+    import pandas as pd
+
 
 load_dotenv()
 
@@ -37,11 +36,11 @@ app.title = 'Dash Skeleton'
 server = app.server
 my_css_url = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 app.css.append_css({"external_url": my_css_url})
-BOOTSTRAP_SCREEN_SIZE='lg'
+BOOTSTRAP_SCREEN_SIZE = 'lg'
 ROOT_PATH = './'
 
 # If you need to run your app locally
-#app.scripts.config.serve_locally = True
+# app.scripts.config.serve_locally = True
 
 csv_path = os.path.join(
     ROOT_PATH, 'data/processed/data.csv'
@@ -61,7 +60,7 @@ def get_updated_df():
 
 app.layout = Container([
     Row(
-        Col (
+        Col(
             [
                 html.Label('Options'),
                 dcc.Checklist(
