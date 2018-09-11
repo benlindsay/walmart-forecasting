@@ -8,6 +8,7 @@ import logging
 import pandas as pd
 from dotenv import find_dotenv
 from dotenv import load_dotenv
+from os import makedirs
 from os.path import dirname
 from os.path import exists
 from os.path import getmtime
@@ -55,6 +56,7 @@ def download_raw_data(download_url, raw_data_file):
         absolute path of file to write to
     """
     raw_data = urlopen(download_url)
+    makedirs(dirname(raw_data_file), exist_ok=True)
     with open(raw_data_file, 'w') as output:
         output.write(raw_data.read().decode('utf-8'))
 
@@ -71,6 +73,7 @@ def process_raw_data(raw_data_file, processed_data_file):
         Path to processed_data_file
     """
     df = pd.read_csv(raw_data_file)
+    makedirs(dirname(processed_data_file), exist_ok=True)
     df.to_csv(processed_data_file)
 
 
