@@ -99,7 +99,7 @@ six==1.11.0
 snowballstemmer==1.2.1
 Sphinx==1.7.9
 sphinxcontrib-websupport==1.1.0
--e git+git@github.com:benlindsay/al-takehome-problem.git@0b5766ee0134541cee8f51fe863bd8468330f7b1#egg=src
+-e git+git@github.com:benlindsay/al-takehome-problem.git@bb76f0e76734d517d66c29e00307098018dc8831#egg=src
 terminado==0.8.1
 testpath==0.3.1
 tornado==5.1

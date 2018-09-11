@@ -17,7 +17,9 @@ matplotlib
 numpy
 pandas
 plotly
+pytest
 seaborn
+tox
 
 # heroku requirements
 gunicorn
