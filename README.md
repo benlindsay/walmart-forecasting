@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/benlindsay/al-takehome-problem.svg?branch=master)](https://travis-ci.org/benlindsay/al-takehome-problem)
+
 air-liquide-takehome-problem
 ==============================
 
