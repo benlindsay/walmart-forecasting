@@ -3,9 +3,6 @@
 #
 # Copyright (c) 2018 Ben Lindsay <benjlindsay@gmail.com>
 
-import argparse
-import logging
-import pandas as pd
 from dotenv import find_dotenv
 from dotenv import load_dotenv
 from os import makedirs
@@ -13,6 +10,9 @@ from os.path import dirname
 from os.path import getmtime
 from os.path import isfile
 from urllib.request import urlopen
+import argparse
+import logging
+import pandas as pd
 
 PROJECT_DIR = dirname(find_dotenv())
 
