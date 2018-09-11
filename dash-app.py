@@ -46,13 +46,11 @@ ROOT_PATH = './'
 csv_path = os.path.join(
     ROOT_PATH, 'data/processed/data.csv'
 )
-if not os.path.isfile(csv_path):
-    print(check_output("make data".split()))
-    if not os.path.isfile(csv_path):
-        raise RuntimeError("`make data` command not generating data in "
-                           "{}".format(csv_path))
 
-FULL_DF = pd.read_csv(csv_path)
+if os.path.isfile(csv_path):
+    FULL_DF = pd.read_csv(csv_path)
+else:
+    FULL_DF = pd.DataFrame({2: np.arange(5), 1: np.arange(1, 6)})
 
 
 def get_updated_df():
