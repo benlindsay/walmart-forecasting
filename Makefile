@@ -27,6 +27,7 @@ endif
 requirements: test_environment
 	pip install -U pip setuptools wheel
 	pip install -r requirements.txt
+	python -m ipykernel install --name conda-env-altakehome-py
 ifeq (True,$(ENABLE_JUPYTERLAB_VIM))
 	jupyter labextension install jupyterlab_vim
 endif
