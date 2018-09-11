@@ -21,6 +21,7 @@ with warnings.catch_warnings():
 from dash.dependencies import Input, State, Output, Event
 from dotenv import load_dotenv
 from plotly.colors import DEFAULT_PLOTLY_COLORS
+from subprocess import check_output
 import numpy as np
 import os
 
@@ -43,8 +44,14 @@ ROOT_PATH = './'
 #app.scripts.config.serve_locally = True
 
 csv_path = os.path.join(
-    ROOT_PATH, 'data/processed/tmp.csv'
+    ROOT_PATH, 'data/processed/data.csv'
 )
+if not os.path.isfile(csv_path):
+    print(check_output("make data".split()))
+    if not os.path.isfile(csv_path):
+        raise RuntimeError("`make data` command not generating data in "
+                           "{}".format(csv_path))
+
 FULL_DF = pd.read_csv(csv_path)
 
 

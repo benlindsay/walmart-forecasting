@@ -10,7 +10,7 @@ PROFILE = default
 PROJECT_NAME = air-liquide-takehome-problem
 ENV_NAME = altakehome
 PYTHON_INTERPRETER = python
-RAW_DATA_URL = "http://sample.com/data-url"
+RAW_DATA_URL = "https://raw.githubusercontent.com/benlindsay/baby-name-map-preprocess/master/data/Aaron.csv"
 RAW_DATA_FILE = data/raw/data.csv
 
 ifeq (,$(shell which conda))
@@ -18,8 +18,6 @@ HAS_CONDA=False
 else
 HAS_CONDA=True
 endif
-
-ENABLE_JUPYTERLAB_VIM=True
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -32,17 +30,14 @@ requirements: test_environment
 ifeq (True,$(ENABLE_JUPYTERLAB_VIM))
 	jupyter labextension install jupyterlab_vim
 endif
-
-requirements-base: test_environment
-	pip install -U pip setuptools wheel
-	pip install -r requirements-base.txt
-ifeq (True,$(ENABLE_JUPYTERLAB_VIM))
-	jupyter labextension install jupyterlab_vim
-endif
-	pip freeze > requirements.txt
+	pip freeze > requirements-lock.txt
 ifeq (True,$(HAS_CONDA))
 	conda env export > environment.yml
 endif
+
+requirements-lock: test_environment
+	pip install -U pip setuptools wheel
+	pip install -r requirements-lock.txt
 
 ## Make Dataset
 data: requirements
