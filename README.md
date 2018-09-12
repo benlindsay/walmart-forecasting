@@ -8,7 +8,7 @@ This repository contains my analysis of ???. I split my analysis into several Ju
 ## Analysis
 
 1. [Exploratory Data Analysis](notebooks/test_nb.ipynb)
-2. [Interactive Dashboard made with Plotly Dash](https://takehomeproblem.herokuapp.com/)
+2. [Interactive Dashboard](https://takehomeproblem.herokuapp.com/) made with Plotly Dash and hosted on Heroku
 
 ## Reproducing this analysis locally
 
