@@ -3,9 +3,14 @@
 air-liquide-takehome-problem
 ==============================
 
-Description here.
+This repository contains my analysis of ???. I split my analysis into several Jupyter notebooks. To walk through my analysis, click on the links to the notebooks below. Look at the instructions at the bottom of this file if you want to reproduce or modify this analysis on your machine.
 
-## Getting started
+## Analysis
+
+1. [Exploratory Data Analysis](notebooks/test_nb.ipynb)
+2. [Interactive Dashboard made with Plotly Dash](https://takehomeproblem.herokuapp.com/)
+
+## Reproducing this analysis locally
 
 These are the steps you'll need to take the first time you touch this:
 
@@ -27,7 +32,7 @@ make create_environment
 source activate altakehome
 ```
 
-With pip it looks like 
+With pip it looks like
 
 ```
 workon altakehome
