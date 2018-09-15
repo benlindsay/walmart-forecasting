@@ -93,5 +93,60 @@ dependencies:
   - zeromq=4.2.5=hfc679d8_5
   - zlib=1.2.11=h470a237_3
   - zope.interface=4.5.0=py36h470a237_1
+  - pip:
+    - alabaster==0.7.11
+    - atomicwrites==1.2.1
+    - awscli==1.16.10
+    - babel==2.6.0
+    - botocore==1.12.0
+    - chardet==3.0.4
+    - click==6.7
+    - colorama==0.3.9
+    - coverage==4.5.1
+    - cycler==0.10.0
+    - dash==0.26.4
+    - dash-core-components==0.28.3
+    - dash-html-components==0.12.0
+    - dash-renderer==0.13.2
+    - docutils==0.14
+    - flake8==3.5.0
+    - flask==1.0.2
+    - flask-compress==1.4.0
+    - gunicorn==19.9.0
+    - imagesize==1.1.0
+    - itsdangerous==0.24
+    - jmespath==0.9.3
+    - kiwisolver==1.0.1
+    - matplotlib==2.2.3
+    - mccabe==0.6.1
+    - more-itertools==4.3.0
+    - numpy==1.15.1
+    - packaging==17.1
+    - pandas==0.23.4
+    - plotly==3.2.0
+    - pluggy==0.7.1
+    - py==1.6.0
+    - pycodestyle==2.3.1
+    - pyflakes==1.6.0
+    - pyparsing==2.2.0
+    - pytest==3.8.0
+    - python-dotenv==0.9.1
+    - pytz==2018.5
+    - pyyaml==3.13
+    - requests==2.19.1
+    - retrying==1.3.3
+    - rsa==3.4.2
+    - s3transfer==0.1.13
+    - scipy==1.1.0
+    - seaborn==0.9.0
+    - snowballstemmer==1.2.1
+    - sphinx==1.7.9
+    - sphinxcontrib-websupport==1.1.0
+    - src==0.1.0
+    - toml==0.9.6
+    - tox==3.3.0
+    - urllib3==1.23
+    - virtualenv==16.0.0
+    - werkzeug==0.14.1
 prefix: /Users/benlindsay/miniconda/envs/altakehome
 
