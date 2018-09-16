@@ -2,8 +2,11 @@ language: python
 python:
   - 3.6
 install:
+  - echo "$KAGGLE_JSON"
   - pip install -r requirements.txt
   - pip install jupyter
   - python -m ipykernel install --user --name conda-env-altakehome-py
 script: py.test
-
+env:
+  global:
+    - secure: "O2LqeTqT+kQVumVQgcR2G4M2UZt8QFLItX4DvBcAH8DtsbOIw1P4zU+8jiEcuc4fDoAYoEOoKT9+NpqnL7KVt6OA9eW94IVICWOjg5VNsQyI+vFFaNiOnG10mXKodxrJIezYqS/7g6jrUA129bzj76XBuiry0OgAkT+Y+ZR/3NxjLdXbdc3Rs9p05OIqO03o26AgC29ZIvJP8FJVz1BtTuzs37ll7ThVHaaYuIEJLGmYx8MI/Hwy21Pd5bFWLfjgcFBShbQ+k9WDo2ihXP0lHdnppPAe7FFkS5RbrBz1fjoNVRO+Cs8IrYdlF7pWu8gO6nEARVRoAjPRLTyDjrOZL48He3sUDU4+ivsnEqbBfHKuoqIaE0BoBKG/NbDrZmeX/yQncgE9rJoK+4dHMJm6Gub27P05dho8gcIqD4eqiuDvsQX41Nog/6mnOACVqiN6FMm7VjZQ6aVNmpKAWZs/G2GPnBQSJ81Ukd8AoRqcJVGPoHMtLGeP9D1fxJzv+O/ZMgNcHKy3m119hI/eI+A89dzeAujQ9gaDJsWfu988Iw88Y8h1m62SdfZe0ST62FLNzhTtCcEuXgA3smeFIGhb4Jv4HfmsQbFQppSyIcPFnbSKCvnrnOvGK8EJZ0G/05EVfSobmba18XgJMrPXfxDcULlxcNOvx+tKTe6q1M/uhy0="
