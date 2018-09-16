@@ -5,9 +5,11 @@
 # 
 # Copyright (c) 2018 Ben Lindsay <benjlindsay@gmail.com>
 
+import numpy as np
+import pandas as pd
+
 from .load import load_train_df
 from .features import join_columns
-import pandas as pd
 
 
 def get_week_by_dept_df(train_df=None, values='Weekly_Sales',
@@ -34,3 +36,10 @@ def unpivot_week_by_dept_df(week_by_dept, value_name='Weekly_Sales'):
     unpivoted = pd.melt(week_by_dept, id_vars=['Date'], value_vars=value_vars,
                         value_name=value_name)
     return unpivoted
+
+
+def svd_reconstruct(df, n_comp=10):
+    df = df.copy()
+    u, s, vh = np.linalg.svd(df)
+    df.iloc[:, :] = (u[:, :n_comp] * s[:n_comp]) @ vh[:n_comp, :]
+    return df
