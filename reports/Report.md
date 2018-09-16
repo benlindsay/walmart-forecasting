@@ -59,7 +59,7 @@ able to submit to Kaggle for a comparison to the baseline on their holdout data.
 # Random Forest
 
 I was low on time, but I began setting up a Random Forest model
-[here](../notebooks/04_Random-Forest). I didn't get far, but if I had more time,
+[here](../notebooks/04_Random-Forest.ipynb). I didn't get far, but if I had more time,
 I would have set up a dataframe such that each store/department/time combination
 would be paired with $m$ features representing the previous $m$ time points for
 that store/department, and $n$ features centered around the time point a year
