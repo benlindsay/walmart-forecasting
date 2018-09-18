@@ -11,13 +11,14 @@ def join_columns(df, column_names, delim='_'):
     df = df.copy()
     df[new_column] = df[column_names[0]].map(str)
     for c in column_names[1:]:
-        df[new_column] += '_' + df[c].map(str)
+        df[new_column] += delim + df[c].map(str)
     return df
 
 
-def make_id_column(df):
+def make_id_column(df, store_dept_sep='_'):
     df = df.copy()
-    if 'Store_Dept' not in df.columns:
-        df = join_columns(df, ['Store', 'Dept'])
-    df['Id'] = df['Store_Dept'] + df['Date'].dt.strftime("_%Y-%m-%d")
+    store_dept_col_name = 'Store' + store_dept_sep + 'Dept'
+    if store_dept_col_name not in df.columns:
+        df = join_columns(df, ['Store', 'Dept'], delim=store_dept_sep)
+    df['Id'] = df[store_dept_col_name] + df['Date'].dt.strftime("_%Y-%m-%d")
     return df

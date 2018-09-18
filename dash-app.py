@@ -41,25 +41,13 @@ app.css.append_css({"external_url": my_css_url})
 BOOTSTRAP_SCREEN_SIZE = 'lg'
 ROOT_PATH = './'
 
-# If you need to run your app locally
-# app.scripts.config.serve_locally = True
-
-# csv_path = os.path.join(
-#     ROOT_PATH, 'data/raw/train.csv'
-# )
-
-# if os.path.isfile(csv_path):
-#     FULL_DF = pd.read_csv(csv_path)
-# else:
-#     FULL_DF = pd.DataFrame({2: np.arange(5), 1: np.arange(1, 6)})
-
-train_df = load_train_df()
+train_df = load_train_df(store_dept_sep='-')
 ALL_STORES, ALL_DEPTS = train_df['Store'].unique(), train_df['Dept'].unique()
-FULL_DF = get_week_by_dept_df(train_df)
+FULL_DF = get_week_by_dept_df(train_df, store_dept_sep='-')
 
 def get_updated_df(stores=[1], depts=[1]):
-    store_dept_str_list = ['{}_{}'.format(s, d) for d in depts for s in stores]
-    df = get_week_by_dept_df()
+    store_dept_str_list = ['{}-{}'.format(s, d) for d in depts for s in stores]
+    df = FULL_DF.copy()
     store_dept_str_list = [s for s in store_dept_str_list if s in df.columns]
     df = df[store_dept_str_list].copy()
     return df
@@ -79,7 +67,7 @@ app.layout = Container([
                         ],
                         value=['1'],
                         multi=True,
-                    )
+                    ),
                 ], bp=BOOTSTRAP_SCREEN_SIZE, size=12,
             ),
             Col(
@@ -93,23 +81,27 @@ app.layout = Container([
                         ],
                         value=['1'],
                         multi=True,
-                    )
+                    ),
                 ], bp=BOOTSTRAP_SCREEN_SIZE, size=12,
             ),
-        ]
-    ),
-    Row(
-        Col(
-            [
-                dcc.Graph(
-                    id='graph_1',
-                    config={
-                        'editable': True,
-                        'edits': {'shapePosition': True}
-                    },
-                )
-            ], id='graph_div', bp=BOOTSTRAP_SCREEN_SIZE, size=12,
-        )
+            Col(
+                [
+                    dcc.Graph(id='graph_1'),
+                ], id='graph_div', bp=BOOTSTRAP_SCREEN_SIZE, size=12,
+            ),
+            Col(
+                [
+                    html.Label('Training Fraction'),
+                    dcc.Slider(
+                        id='train_frac',
+                        min=0,
+                        max=1,
+                        step=0.005,
+                        value=0.8,
+                    ),
+                ],
+            ),
+        ],
     ),
     html.Div(id='hidden-data', style={'display': 'none'}),
 ])
@@ -129,9 +121,10 @@ def hidden_data_callback(stores_value, depts_value):
 
 @app.callback(
     Output('graph_1', 'figure'),
-    [Input('hidden-data', 'children')],
+    [Input('hidden-data', 'children'),
+     Input('train_frac', 'value')],
 )
-def graph_1_callback(jsonified_cleaned_data):
+def graph_1_callback(jsonified_cleaned_data, train_frac):
     df = pd.read_json(jsonified_cleaned_data, orient='split')
     return {
         'data': [
@@ -139,7 +132,7 @@ def graph_1_callback(jsonified_cleaned_data):
                 'x': df.index,
                 'y': df[col],
                 'type': 'scatter',
-                'name': col,
+                'name': 'S {}, D {}'.format(*col.split('-')),
                 'mode': 'lines',
                 # 'marker': {'size': 10},
                 # 'marker': {'size': 10, 'color': POSITION_COLORS[position]},
@@ -152,10 +145,11 @@ def graph_1_callback(jsonified_cleaned_data):
             'hovermode': 'compare',
             'xaxis': {'title': 'Date'},
             'yaxis': {'title': 'Weekly Sales'},
+            'showlegend': True,
             'shapes': [{
                 'type': 'line',
-                'x0': df.index[len(df)//2],
-                'x1': df.index[len(df)//2],
+                'x0': df.index[int(train_frac * len(df) + 0.5)],
+                'x1': df.index[int(train_frac * len(df) + 0.5)],
                 'xref': 'x',
                 'y0': 0,
                 'y1': df.max().max(),
@@ -163,21 +157,10 @@ def graph_1_callback(jsonified_cleaned_data):
                 'line': {
                     'width': 2,
                     'color': 'rgb(30, 30, 30)',
-                }
-            }]
+                },
+            }],
         },
     }
-
-# @app.callback(
-#     Output('count', 'children'),
-#     [],
-#     [],
-#     [Event('graph_div', 'release')],
-# )
-# def increment():
-#     global COUNT
-#     COUNT += 1
-#     return str(COUNT)
 
 
 if __name__ == '__main__':

@@ -15,10 +15,11 @@ from .features import join_columns
 # Root directory of repo
 project_dir = dirname(find_dotenv())
 
-def load_train_df():
+def load_train_df(store_dept_sep='_'):
     train_csv = join(project_dir, 'data/raw/train.csv')
     train_df = pd.read_csv(train_csv, parse_dates=[2])
-    train_df = join_columns(train_df, ['Store', 'Dept'])
+    train_df = join_columns(train_df, ['Store', 'Dept'],
+                            delim=store_dept_sep)
     return train_df
 
 def load_test_df():

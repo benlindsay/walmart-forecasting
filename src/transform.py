@@ -13,17 +13,19 @@ from .features import join_columns
 
 
 def get_week_by_dept_df(train_df=None, values='Weekly_Sales',
-                        fillna_method='interpolate'):
+                        fillna_method='interpolate', store_dept_sep='_'):
     if train_df is None:
-        train_df = load_train_df()
+        train_df = load_train_df(store_dept_sep=store_dept_sep)
     if values is None:
         train_df['zeros'] = 0
         fillna_method = None
         values = 'zeros'
-    if 'Store_Dept' not in train_df.columns:
-        train_df = join_columns(train_df, ['Store', 'Dept'])
+    store_dept_col_name = 'Store' + store_dept_sep + 'Dept'
+    if store_dept_col_name not in train_df.columns:
+        train_df = join_columns(train_df, ['Store', 'Dept'],
+                                delim=store_dept_sep)
     week_by_dept = pd.pivot_table(
-        train_df, index='Date', columns='Store_Dept', values=values
+        train_df, index='Date', columns=store_dept_col_name, values=values
     )
     if fillna_method == 'interpolate':
         week_by_dept = week_by_dept.interpolate(limit_direction='both')
