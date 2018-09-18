@@ -16,6 +16,8 @@ import os
 from dashboard.components import Col
 from dashboard.components import Container
 from dashboard.components import Row
+from src.load import load_train_df
+from src.transform import get_week_by_dept_df
 
 import warnings
 with warnings.catch_warnings():
@@ -42,44 +44,71 @@ ROOT_PATH = './'
 # If you need to run your app locally
 # app.scripts.config.serve_locally = True
 
-csv_path = os.path.join(
-    ROOT_PATH, 'data/processed/data.csv'
-)
+# csv_path = os.path.join(
+#     ROOT_PATH, 'data/raw/train.csv'
+# )
 
-if os.path.isfile(csv_path):
-    FULL_DF = pd.read_csv(csv_path)
-else:
-    FULL_DF = pd.DataFrame({2: np.arange(5), 1: np.arange(1, 6)})
+# if os.path.isfile(csv_path):
+#     FULL_DF = pd.read_csv(csv_path)
+# else:
+#     FULL_DF = pd.DataFrame({2: np.arange(5), 1: np.arange(1, 6)})
 
+train_df = load_train_df()
+ALL_STORES, ALL_DEPTS = train_df['Store'].unique(), train_df['Dept'].unique()
+FULL_DF = get_week_by_dept_df(train_df)
 
-def get_updated_df():
-    df = FULL_DF.copy()
-    # Process df
+def get_updated_df(stores=[1], depts=[1]):
+    store_dept_str_list = ['{}_{}'.format(s, d) for d in depts for s in stores]
+    df = get_week_by_dept_df()
+    store_dept_str_list = [s for s in store_dept_str_list if s in df.columns]
+    df = df[store_dept_str_list].copy()
     return df
 
 
 app.layout = Container([
     Row(
-        Col(
-            [
-                html.Label('Options'),
-                dcc.Checklist(
-                    id='checklist',
-                    options=[
-                        {'label': 'A', 'value': 'A'},
-                        {'label': 'B', 'value': 'B'},
-                    ],
-                    values=['A', 'B'],
-                    labelStyle={'margin': '5px'},
-                )
-            ], bp=BOOTSTRAP_SCREEN_SIZE, size=12,
-        )
+        [
+            Col(
+                [
+                    html.Label('Stores'),
+                    dcc.Dropdown(
+                        id='stores',
+                        options=[
+                            {'label': str(s), 'value': str(s)}
+                            for s in ALL_STORES
+                        ],
+                        value=['1'],
+                        multi=True,
+                    )
+                ], bp=BOOTSTRAP_SCREEN_SIZE, size=12,
+            ),
+            Col(
+                [
+                    html.Label('Departments'),
+                    dcc.Dropdown(
+                        id='depts',
+                        options=[
+                            {'label': str(d), 'value': str(d)}
+                            for d in ALL_DEPTS
+                        ],
+                        value=['1'],
+                        multi=True,
+                    )
+                ], bp=BOOTSTRAP_SCREEN_SIZE, size=12,
+            ),
+        ]
     ),
     Row(
         Col(
             [
-                dcc.Graph(id='graph_1')
-            ], bp=BOOTSTRAP_SCREEN_SIZE, size=12,
+                dcc.Graph(
+                    id='graph_1',
+                    config={
+                        'editable': True,
+                        'edits': {'shapePosition': True}
+                    },
+                )
+            ], id='graph_div', bp=BOOTSTRAP_SCREEN_SIZE, size=12,
         )
     ),
     html.Div(id='hidden-data', style={'display': 'none'}),
@@ -89,11 +118,12 @@ app.layout = Container([
 @app.callback(
     Output('hidden-data', 'children'),
     [
-        Input('checklist', 'values'),
+        Input('stores', 'value'),
+        Input('depts', 'value'),
     ],
 )
-def hidden_data_callback(checklist_values):
-    df = get_updated_df()
+def hidden_data_callback(stores_value, depts_value):
+    df = get_updated_df(stores=stores_value, depts=depts_value)
     return df.to_json(orient='split')
 
 
@@ -110,20 +140,44 @@ def graph_1_callback(jsonified_cleaned_data):
                 'y': df[col],
                 'type': 'scatter',
                 'name': col,
-                'mode': 'markers',
-                'marker': {'size': 10},
+                'mode': 'lines',
+                # 'marker': {'size': 10},
                 # 'marker': {'size': 10, 'color': POSITION_COLORS[position]},
             } for col in df.columns
         ],
         'layout': {
-            'title': 'Sample Graph',
+            'title': 'Walmart Sales over Time',
             'height': '400',
             'font': {'size': 14},
-            'hovermode': 'closest',
-            'xaxis': {'title': 'x'},
-            'yaxis': {'title': 'y'},
+            'hovermode': 'compare',
+            'xaxis': {'title': 'Date'},
+            'yaxis': {'title': 'Weekly Sales'},
+            'shapes': [{
+                'type': 'line',
+                'x0': df.index[len(df)//2],
+                'x1': df.index[len(df)//2],
+                'xref': 'x',
+                'y0': 0,
+                'y1': df.max().max(),
+                'yref': 'y',
+                'line': {
+                    'width': 2,
+                    'color': 'rgb(30, 30, 30)',
+                }
+            }]
         },
     }
+
+# @app.callback(
+#     Output('count', 'children'),
+#     [],
+#     [],
+#     [Event('graph_div', 'release')],
+# )
+# def increment():
+#     global COUNT
+#     COUNT += 1
+#     return str(COUNT)
 
 
 if __name__ == '__main__':
