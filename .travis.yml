@@ -2,7 +2,8 @@ language: python
 python:
   - 3.6
 install:
-  - echo "$KAGGLE_JSON"
+  - echo "$KAGGLE_JSON" > tmp.txt
+  - cat tmp.txt
   - pip install -r requirements.txt
   - pip install jupyter
   - python -m ipykernel install --user --name conda-env-altakehome-py
