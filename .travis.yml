@@ -4,12 +4,12 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install jupyter
-  - python -m ipykernel install --user --name conda-env-altakehome-py
   - git clone https://"$GITHUB_TOKEN"@github.com/benlindsay/walmart-data
   - mkdir -p data/raw
   - mv walmart-data/* data/raw/
   - rm -rf walmart-data
   - head data/raw/train.csv
+  - touch .env
 script: py.test
 env:
   global:
