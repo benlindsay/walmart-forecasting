@@ -7,8 +7,8 @@
 PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
 PROFILE = default
-PROJECT_NAME = air-liquide-takehome-problem
-ENV_NAME = altakehome
+PROJECT_NAME = walmart-forecasting
+ENV_NAME = walmart
 PYTHON_INTERPRETER = python
 RAW_DATA_URL = "https://raw.githubusercontent.com/benlindsay/baby-name-map-preprocess/master/data/Aaron.csv"
 RAW_DATA_FILE = data/raw/data.csv
@@ -27,7 +27,7 @@ endif
 requirements: test_environment
 	pip install -U pip setuptools wheel
 	pip install -r requirements.txt
-	python -m ipykernel install --name conda-env-altakehome-py
+	python -m ipykernel install --name walmart
 ifeq (True,$(ENABLE_JUPYTERLAB_VIM))
 	jupyter labextension install jupyterlab_vim
 endif
