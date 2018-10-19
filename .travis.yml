@@ -5,5 +5,13 @@ install:
   - pip install -r requirements.txt
   - pip install jupyter
   - python -m ipykernel install --user --name conda-env-altakehome-py
+  - git clone https://"$GITHUB_TOKEN"@github.com/benlindsay/walmart-data
+  - mkdir -p data/raw
+  - mv walmart-data/* data/raw/
+  - rm -rf walmart-data
+  - head data/raw/train.csv
 script: py.test
-
+env:
+  global:
+    # GITHUB_TOKEN
+    - secure: CCovti+HkeafGm2RlkqVVSbjmjsp12VSxNrkYstTbWgtiO259+PbcXIud1epESvEFdjvECGrCa86ApuQO50lukOHi+7E8jmFjCeWty1ForyfP/v/0E5l9gnVqInpRkFu97Ns/9bN357BQRANIX2rSiwc5y83hMPuKHDe0QSJQ1cWwe8MYFudeBoJj6b7d9b7er0NItAbYgaT5CKz5HpPMttD5G2/5oH7bwKDKR5YI6zS2tEi4wDnQ8+c+qtMvvM2nhtsg5mcerP5fA8Y/iK4DoVw3vbUUCxXpncR1bfzidBCBXoQSu5rfCzrKJShA4ix29spwztpgJPtGf8d7w8ZFQkpbUksAuvN/TP5jZVB0vAzDG5VQCrFwlH6yrNY+P3Jn43iZynK+cVU4pNMMjgghOkSJUk6YFD95FvUshYWSb2Qx1IPlAg7/ccXHwbSPD0fCEwljeG8R4SP//lSxUqzaX94WenGAg3cgeI2OOFIrmk3gfUhrBQXlFc21cxqHa42Rpx7IVeEdRZMsKpMnEMm+Fpurc6diFbhFTBHO2uF6xyJMHHt4N0Q1Itx97eCbYUM0ClBhUKMWlzEFrv7/wj4c9u6qzfwRuJuAy6BdsY8yytOc1qFFT6zuaYaqYCYV6tvQRScbXmOW7Q4Vax53q+fGRekEuiLFvtsQbWD8YtEUxE=
