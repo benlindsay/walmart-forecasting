@@ -73,7 +73,7 @@ endif
 create_environment:
 ifeq (True,$(HAS_CONDA))
 	@echo ">>> Detected conda, creating conda environment."
-	conda create -c conda-forge --name $(ENV_NAME) python=3.6 jupyter jupyterlab nb_conda_kernels
+	conda create -c conda-forge --name $(ENV_NAME) python=3.6 jupyter jupyterlab
 	@echo ">>> New conda env created. Activate with:\nsource activate $(ENV_NAME)"
 else
 	@pip install -q virtualenv virtualenvwrapper jupyter
