@@ -30,7 +30,7 @@ requirements: test_environment
 ifeq (True,$(ENABLE_JUPYTERLAB_VIM))
 	jupyter labextension install jupyterlab_vim
 endif
-	python -m ipykernel install --name walmart
+	python -m ipykernel install --user --name walmart
 	pip freeze > requirements-lock.txt
 ifeq (True,$(HAS_CONDA))
 	conda env export > environment.yml
