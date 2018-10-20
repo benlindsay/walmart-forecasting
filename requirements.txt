@@ -20,8 +20,8 @@ pandas
 plotly
 pytest
 seaborn
+statsmodels
 tox
 
 # heroku requirements
 gunicorn
-
