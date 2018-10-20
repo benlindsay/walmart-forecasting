@@ -4,7 +4,7 @@ python:
 install:
   - make create_environment
   - workon walmart && make requirements && make data
-script: workon walmart && py.test
+script: source virtualenvwrapper.sh && workon walmart && py.test
 env:
   global:
     # GITHUB_TOKEN
