@@ -2,8 +2,9 @@ language: python
 python:
   - 3.6
 install:
-  - make create_environment
-  - source virtualenvwrapper.sh && workon walmart && make requirements && make data
+  - which python
+  - make requirements
+  - make data
 script: source virtualenvwrapper.sh && workon walmart && py.test
 env:
   global:
