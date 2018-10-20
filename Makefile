@@ -27,10 +27,10 @@ endif
 requirements: test_environment
 	pip install -U pip setuptools wheel
 	pip install -r requirements.txt
-	python -m ipykernel install --name walmart
 ifeq (True,$(ENABLE_JUPYTERLAB_VIM))
 	jupyter labextension install jupyterlab_vim
 endif
+	python -m ipykernel install --name walmart
 	pip freeze > requirements-lock.txt
 ifeq (True,$(HAS_CONDA))
 	conda env export > environment.yml
@@ -76,10 +76,10 @@ endif
 create_environment:
 ifeq (True,$(HAS_CONDA))
 	@echo ">>> Detected conda, creating conda environment."
-	conda create -c conda-forge --name $(ENV_NAME) python=3.6 jupyter jupyterlab
+	conda create -c conda-forge --name $(ENV_NAME) python=3.6
 	@echo ">>> New conda env created. Activate with:\nsource activate $(ENV_NAME)"
 else
-	@pip install -q virtualenv virtualenvwrapper jupyter
+	@pip install -q virtualenv virtualenvwrapper
 	@echo ">>> Installing virtualenvwrapper if not already intalled.\nMake sure the following lines are in shell startup file\n\
 	export WORKON_HOME=$$HOME/.virtualenvs\nexport PROJECT_HOME=$$HOME/Devel\nsource /usr/local/bin/virtualenvwrapper.sh\n"
 	@bash -c "source `which virtualenvwrapper.sh`;mkvirtualenv $(ENV_NAME) --python=$(PYTHON_INTERPRETER)"
