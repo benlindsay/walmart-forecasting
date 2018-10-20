@@ -35,6 +35,7 @@ endif
 ifeq (True,$(HAS_CONDA))
 	conda env export > environment.yml
 endif
+	touch .env
 
 requirements-lock: test_environment
 	pip install -U pip setuptools wheel
@@ -85,7 +86,6 @@ else
 	@bash -c "source `which virtualenvwrapper.sh`;mkvirtualenv $(ENV_NAME) --python=$(PYTHON_INTERPRETER)"
 	@echo ">>> New virtualenv created. Activate with:\nworkon $(ENV_NAME)"
 endif
-	touch .env
 
 ## Test python environment is setup correctly
 test_environment:
