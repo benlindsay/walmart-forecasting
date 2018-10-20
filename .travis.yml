@@ -2,10 +2,9 @@ language: python
 python:
   - 3.6
 install:
-  - which python
   - make requirements
   - make data
-script: source virtualenvwrapper.sh && workon walmart && py.test
+script: py.test
 env:
   global:
     # GITHUB_TOKEN
