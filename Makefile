@@ -42,7 +42,10 @@ requirements-lock: test_environment
 
 ## Make Dataset
 data:
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py $(RAW_DATA_URL) $(RAW_DATA_FILE)
+	git clone https://$(GITHUB_TOKEN)@github.com/benlindsay/walmart-data
+	mkdir -p data/raw
+	mv walmart-data/* data/raw/
+	rm -rf walmart-data
 
 ## Delete all compiled Python files
 clean:
@@ -82,6 +85,7 @@ else
 	@bash -c "source `which virtualenvwrapper.sh`;mkvirtualenv $(ENV_NAME) --python=$(PYTHON_INTERPRETER)"
 	@echo ">>> New virtualenv created. Activate with:\nworkon $(ENV_NAME)"
 endif
+	touch .env
 
 ## Test python environment is setup correctly
 test_environment:
