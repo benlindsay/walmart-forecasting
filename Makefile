@@ -27,9 +27,6 @@ endif
 requirements: test_environment
 	pip install -U pip setuptools wheel
 	pip install -r requirements.txt
-ifeq (True,$(ENABLE_JUPYTERLAB_VIM))
-	jupyter labextension install jupyterlab_vim
-endif
 	python -m ipykernel install --user --name walmart
 	pip freeze > requirements-lock.txt
 ifeq (True,$(HAS_CONDA))
@@ -37,7 +34,13 @@ ifeq (True,$(HAS_CONDA))
 endif
 	touch .env
 
-requirements-lock: test_environment
+jupyterlab_extensions: test_environment
+	jupyter labextension install jupyterlab_vim
+	jupyter labextension install @ryantam626/jupyterlab_code_formatter
+	pip install jupyterlab_code_formatter
+	jupyter serverextension enable --py jupyterlab_code_formatter
+
+requirements_lock: test_environment
 	pip install -U pip setuptools wheel
 	pip install -r requirements-lock.txt
 
