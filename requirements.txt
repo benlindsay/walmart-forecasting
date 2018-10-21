@@ -10,10 +10,12 @@ python-dotenv>=0.5.1
 
 # added requirements
 autopep8
+black
 dash
 dash-renderer
 dash-html-components
 dash-core-components
+jupyter
 jupyterlab
 matplotlib
 numpy
