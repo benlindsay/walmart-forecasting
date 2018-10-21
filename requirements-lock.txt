@@ -94,7 +94,7 @@ six==1.11.0
 snowballstemmer==1.2.1
 Sphinx==1.8.1
 sphinxcontrib-websupport==1.1.0
--e git+git@github.com:benlindsay/walmart-forecasting.git@263f0c38d95c9b4e768966004189b9e5b6e35116#egg=src
+-e git+git@github.com:benlindsay/walmart-forecasting.git@2faed208cbf41de96bea0f1b5e3cd0edf5ce5caa#egg=src
 statsmodels==0.9.0
 terminado==0.8.1
 testpath==0.4.2
