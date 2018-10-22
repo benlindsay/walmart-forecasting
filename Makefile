@@ -13,6 +13,7 @@ PYTHON_INTERPRETER = python
 RAW_DATA_URL = "https://raw.githubusercontent.com/benlindsay/baby-name-map-preprocess/master/data/Aaron.csv"
 RAW_DATA_FILE = data/raw/data.csv
 CONDA = $(CONDA_ROOT)/bin/conda
+ACTIVATE = $(CONDA_ROOT)/bin/activate
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -21,7 +22,7 @@ CONDA = $(CONDA_ROOT)/bin/conda
 ## Install New Python Dependencies
 update_requirements: test_environment
 	$(CONDA) env update -f environment.yml
-	$(CONDA) env export > environment-lock.yml
+	source $(ACTIVATE) $(ENV_NAME) && $(CONDA) env export > environment-lock.yml
 	touch .env
 
 jupyterlab_extensions: test_environment
@@ -65,7 +66,7 @@ endif
 ## Set up python interpreter environment
 create_environment:
 	$(CONDA) env create -f environment.yml
-	$(CONDA) env export > environment-lock.yml
+	source $(ACTIVATE) $(ENV_NAME) && $(CONDA) env export > environment-lock.yml
 	touch .env
 
 ## Test python environment is setup correctly
