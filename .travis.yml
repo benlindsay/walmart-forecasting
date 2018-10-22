@@ -7,8 +7,7 @@ install:
   - source activate walmart
   - make data
 script:
-  - source activate walmart
-  - py.test
+  - source activate walmart && py.test
 env:
   global:
     # GITHUB_TOKEN
