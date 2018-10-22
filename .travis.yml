@@ -2,9 +2,13 @@ language: python
 python:
   - 3.6
 install:
-  - make requirements
+  - utils/travis-install.sh
+  - make create_environment
+  - source activate walmart
   - make data
-script: py.test
+script:
+  - source activate walmart
+  - py.test
 env:
   global:
     # GITHUB_TOKEN

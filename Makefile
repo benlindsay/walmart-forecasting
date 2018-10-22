@@ -13,25 +13,14 @@ PYTHON_INTERPRETER = python
 RAW_DATA_URL = "https://raw.githubusercontent.com/benlindsay/baby-name-map-preprocess/master/data/Aaron.csv"
 RAW_DATA_FILE = data/raw/data.csv
 
-ifeq (,$(shell which conda))
-HAS_CONDA=False
-else
-HAS_CONDA=True
-endif
-
 #################################################################################
 # COMMANDS                                                                      #
 #################################################################################
 
-## Install Python Dependencies
-requirements: test_environment
-	pip install -U pip setuptools wheel
-	pip install -r requirements.txt
-	python -m ipykernel install --user --name walmart
-	pip freeze > requirements-lock.txt
-ifeq (True,$(HAS_CONDA))
-	conda env export > environment.yml
-endif
+## Install New Python Dependencies
+update_requirements: test_environment
+	conda env update -f environment.yml
+	conda env export > environment-lock.yml
 	touch .env
 
 jupyterlab_extensions: test_environment
@@ -39,10 +28,6 @@ jupyterlab_extensions: test_environment
 	jupyter labextension install @ryantam626/jupyterlab_code_formatter
 	pip install jupyterlab_code_formatter
 	jupyter serverextension enable --py jupyterlab_code_formatter
-
-requirements_lock: test_environment
-	pip install -U pip setuptools wheel
-	pip install -r requirements-lock.txt
 
 ## Make Dataset
 data:
@@ -78,17 +63,9 @@ endif
 
 ## Set up python interpreter environment
 create_environment:
-ifeq (True,$(HAS_CONDA))
-	@echo ">>> Detected conda, creating conda environment."
-	conda create -c conda-forge --name $(ENV_NAME) python=3.6
-	@echo ">>> New conda env created. Activate with:\nsource activate $(ENV_NAME)"
-else
-	@pip install -q virtualenv virtualenvwrapper
-	@echo ">>> Installing virtualenvwrapper if not already intalled.\nMake sure the following lines are in shell startup file\n\
-	export WORKON_HOME=$$HOME/.virtualenvs\nexport PROJECT_HOME=$$HOME/Devel\nsource /usr/local/bin/virtualenvwrapper.sh\n"
-	@bash -c "source `which virtualenvwrapper.sh`;mkvirtualenv $(ENV_NAME) --python=$(PYTHON_INTERPRETER)"
-	@echo ">>> New virtualenv created. Activate with:\nworkon $(ENV_NAME)"
-endif
+	conda env create -f environment.yml
+	conda env export > environment-lock.yml
+	touch .env
 
 ## Test python environment is setup correctly
 test_environment:
