@@ -9,11 +9,11 @@ BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
 PROFILE = default
 PROJECT_NAME = walmart-forecasting
 ENV_NAME = walmart
-PYTHON_INTERPRETER = python
 RAW_DATA_URL = "https://raw.githubusercontent.com/benlindsay/baby-name-map-preprocess/master/data/Aaron.csv"
 RAW_DATA_FILE = data/raw/data.csv
 CONDA = $(CONDA_ROOT)/bin/conda
 ACTIVATE = $(CONDA_ROOT)/bin/activate
+PYTHON = $(CONDA_ROOT)/envs/$(ENV_NAME)/bin/python
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -68,12 +68,13 @@ create_environment:
 	$(CONDA) env create -f environment.yml
 	. $(ACTIVATE) $(ENV_NAME) \
 	  && $(CONDA) env export > environment-lock.yml \
-	  && python -m ipykernel install --user --name walmart
+	  && which python \
+	  && $(PYTHON) -m ipykernel install --user --name walmart
 	touch .env
 
 ## Test python environment is setup correctly
 test_environment:
-	$(PYTHON_INTERPRETER) test_environment.py
+	$(PYTHON) test_environment.py
 
 #################################################################################
 # PROJECT RULES                                                                 #
