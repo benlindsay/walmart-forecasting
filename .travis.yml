@@ -9,6 +9,7 @@ install:
 script:
   - which activate
   - source activate walmart && which py.test
+  - source $CONDA_ROOT/bin/activate walmart && which py.test
   - source activate walmart && echo $PATH
   - echo $PATH
   - source activate walmart && py.test
