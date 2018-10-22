@@ -12,6 +12,7 @@ ENV_NAME = walmart
 PYTHON_INTERPRETER = python
 RAW_DATA_URL = "https://raw.githubusercontent.com/benlindsay/baby-name-map-preprocess/master/data/Aaron.csv"
 RAW_DATA_FILE = data/raw/data.csv
+CONDA = $(CONDA_ROOT)/bin/conda
 
 #################################################################################
 # COMMANDS                                                                      #
@@ -19,8 +20,8 @@ RAW_DATA_FILE = data/raw/data.csv
 
 ## Install New Python Dependencies
 update_requirements: test_environment
-	conda env update -f environment.yml
-	conda env export > environment-lock.yml
+	$(CONDA) env update -f environment.yml
+	$(CONDA) env export > environment-lock.yml
 	touch .env
 
 jupyterlab_extensions: test_environment
@@ -63,8 +64,8 @@ endif
 
 ## Set up python interpreter environment
 create_environment:
-	conda env create -f environment.yml
-	conda env export > environment-lock.yml
+	$(CONDA) env create -f environment.yml
+	$(CONDA) env export > environment-lock.yml
 	touch .env
 
 ## Test python environment is setup correctly
