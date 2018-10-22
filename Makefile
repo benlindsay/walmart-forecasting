@@ -66,10 +66,8 @@ endif
 ## Set up python interpreter environment
 create_environment:
 	$(CONDA) env create -f environment.yml
-	echo $$PATH
 	. $(ACTIVATE) $(ENV_NAME) \
 	  && $(CONDA) env export > environment-lock.yml \
-	  && echo $$PATH \
 	  && $(PYTHON) -m ipykernel install --user --name walmart
 	touch .env
 
