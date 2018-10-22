@@ -22,7 +22,7 @@ ACTIVATE = $(CONDA_ROOT)/bin/activate
 ## Install New Python Dependencies
 update_requirements: test_environment
 	$(CONDA) env update -f environment.yml
-	source $(ACTIVATE) $(ENV_NAME) && $(CONDA) env export > environment-lock.yml
+	. $(ACTIVATE) $(ENV_NAME) && $(CONDA) env export > environment-lock.yml
 	touch .env
 
 jupyterlab_extensions: test_environment
@@ -66,7 +66,7 @@ endif
 ## Set up python interpreter environment
 create_environment:
 	$(CONDA) env create -f environment.yml
-	source $(ACTIVATE) $(ENV_NAME) && $(CONDA) env export > environment-lock.yml
+	. $(ACTIVATE) $(ENV_NAME) && $(CONDA) env export > environment-lock.yml
 	touch .env
 
 ## Test python environment is setup correctly
