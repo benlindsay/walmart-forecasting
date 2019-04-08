@@ -1,25 +1,22 @@
 name: walmart
 channels:
   - conda-forge
-  - nodefaults
+  - defaults
 dependencies:
   - python=3.6
-  - autopep8
   - awscli
   - black
   - coverage
-  - dash
-  - dash-renderer
-  - dash-html-components
-  - dash-core-components
+  - dash=0.37.0
+  - fbprophet
   - flake8
+  - gcc
   - gunicorn
   - jupyter
-  - jupyterlab
   - matplotlib
   - numpy
   - pandas
-  - plotly
+  - plotnine
   - pytest
   - python-dotenv>=0.5.1
   - Sphinx
